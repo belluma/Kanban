@@ -1,5 +1,5 @@
 package com.example.kanban.model;
 
-enum TodoStatus {
+public enum TodoStatus {
     TODO, DOING, DONE
 }
