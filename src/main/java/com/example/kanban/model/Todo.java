@@ -34,7 +34,7 @@ public class Todo {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Todo todo = (Todo) o;
-        return Objects.equals(id, todo.id);
+        return Objects.equals(id, todo.id) && Objects.equals(title, todo.title);
     }
 
     @Override
