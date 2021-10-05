@@ -35,7 +35,7 @@ public class TodoService {
     public List<Todo> updateTodos(List<Integer> ids, boolean advance){
         return List.of(new Todo());
     }
-    public void deleteTodos(Integer id){
+    public void deleteTodos(List<Integer> id){
 
     }
     public Todo updateTodoContent(Integer id, String title, String description){

@@ -23,7 +23,7 @@ class TodoServiceTest {
     TodoRepository todoRepository = mock(TodoRepository.class);
 
     //    @InjectMocks
-    private TodoService todoService = new TodoService(todoRepository);
+    private final TodoService todoService = new TodoService(todoRepository);
 
     @Test
     void getAllTodos() {
@@ -31,33 +31,38 @@ class TodoServiceTest {
         List<Todo> actual = todoService.getAllTodos();
         assertIterableEquals(List.of(new Todo("Title", "description")), actual);
     }
+
     @Test
-    void getAllTodosThrowsWhenDBEmpty(){
+    void getAllTodosThrowsWhenDBEmpty() {
         when(todoRepository.findAll()).thenReturn(List.of());
-        assertThrows(NoSuchElementException.class,() -> todoService.getAllTodos());
+        assertThrows(NoSuchElementException.class, () -> todoService.getAllTodos());
     }
+
     @Test
     void getTodosById() {
         when(todoRepository.findById(1)).thenReturn(Optional.of(new Todo("Title", "description")));
         Todo actual = todoService.getTodoById(1);
         assertThat(actual).isEqualTo(new Todo("Title", "description"));
     }
+
     @Test
     void getTodoByIdThrowsWhenNotFound() {
         when(todoRepository.findById(1)).thenReturn(Optional.empty());
         assertThrows(NoSuchElementException.class, () -> todoService.getTodoById(1));
     }
+
     @Test
-    void getTodosByText(){
+    void getTodosByText() {
         when(todoRepository.findByTitleOrDescription("Title")).thenReturn(List.of(new Todo("Title", "description")));
         Todo actual = todoService.getTodosByText("Title").get(0);
         assertThat(actual).isEqualTo(new Todo("title", "description"));
 
     }
+
     @Test
-    void getTodosByTextThrowsWhenNothingFound(){
+    void getTodosByTextThrowsWhenNothingFound() {
         when(todoRepository.findByTitleOrDescription("no such title")).thenThrow(new NoSuchElementException());
-        assertThrows(NoSuchElementException.class, () -> todoService.getTodosByText("no such title"));
+        assertThrows(NoSuchElementException.class, () -> todoService.getTodosByText("title"));
     }
 
     @Test
@@ -66,47 +71,61 @@ class TodoServiceTest {
         Todo actual = todoService.createTodo("title", "description");
         assertThat(actual).isEqualTo(new Todo("title", "description"));
     }
+
     @Test
     void createTodoThrowsWhenTitleEmpty() {
         when(todoRepository.save(new Todo("title", "description"))).thenThrow(new IllegalArgumentException());
-        assertThrows(IllegalArgumentException.class, () -> todoService.createTodo( "title", "description"));
+        assertThrows(IllegalArgumentException.class, () -> todoService.createTodo("title", "description"));
     }
 
     @Test
     void updateTodo() {
-        when(todoRepository.save(new Todo("title", "description"))).thenReturn(new Todo("title", "description"));
-        Todo actual = todoService.updateTodos("title", "description");
-        assertThat(actual).isEqualTo(new Todo("title", "description"));
+        Todo todo = new Todo("title", "description");
+        when(todoRepository.findById(1)).thenReturn(Optional.of(todo));
+        when(todoRepository.save(todo)).thenReturn(todo);
+        List<Todo> actual = todoService.updateTodos(List.of(1), true);
+        assertThat(actual.get(0)).isEqualTo(todo);
     }
+
     @Test
     void updateTodoThrowsWhenNotFound() {
-        when(todoRepository.save(new Todo("title", "description"))).thenThrow(new IllegalArgumentException());
-        assertThrows(IllegalArgumentException.class, () -> todoService.createTodo( "title", "description"));
+        when(todoRepository.findById(1)).thenReturn(Optional.empty());
+        assertThrows(IllegalArgumentException.class, () -> todoService.updateTodos(List.of(1), false));
     }
 
     @Test
-    void updateMultipleTodos() {
-    }
-    @Test
-    void updateMultipleTodosThrowsWhenNotFound() {
+    void deleteTodos() {
+        Todo todo = new Todo("title", "description");
+        when(todoRepository.findById(1)).thenReturn(Optional.of(todo));
+        assertDoesNotThrow(() -> todoService.deleteTodos(List.of(1)));
     }
 
-    @Test
-    void deleteTodo() {
-    }
     @Test
     void deleteTodoThrowsWhenNotFound() {
-    }
-
-    @Test
-    void deleteMultipleTodos() {
+        when(todoRepository.findById(1)).thenReturn(Optional.empty());
+        assertThrows(IllegalArgumentException.class, () -> todoService.deleteTodos(List.of(1)));
     }
 
     @Test
     void updateTodoContent() {
+        Todo todo = new Todo("Title", "description");
+        when(todoRepository.findById(1)).thenReturn(Optional.of(todo));
+        Todo actual = todoService.updateTodoContent(1, "new title", "better description");
+        assertThat(actual).isEqualTo(todo);
+
     }
+
     @Test
-    void updateTodoContentThrowsWhenTitleEmpty() {
+    void updateTodoContentThrowsWhenTitleOrDescriptionEmpty() {
+        assertThrows(IllegalArgumentException.class, () -> todoService.updateTodoContent(1, "", "description"));
+        assertThrows(IllegalArgumentException.class, () -> todoService.updateTodoContent(1, "Title", ""));
+
+    }
+
+    @Test
+    void updateTodoContentThrowsWhenNotFound() {
+        when(todoRepository.findById(1)).thenReturn(Optional.empty());
+        assertThrows(IllegalArgumentException.class, () -> todoService.updateTodoContent(1, "Title", ""));
     }
 
 }
