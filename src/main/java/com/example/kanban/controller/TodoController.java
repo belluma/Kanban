@@ -19,8 +19,8 @@ public class TodoController {
     public ResponseEntity<Todo> getTodoById(@PathVariable String id){
         return new ResponseEntity<>(new Todo(), HttpStatus.OK);
     }
-    @GetMapping()
-    public ResponseEntity<List<Todo>>searchTodos(@RequestBody String searchQuery){
+    @GetMapping(path="{query}")
+    public ResponseEntity<List<Todo>>searchTodos(@PathVariable String query){
         return new ResponseEntity<>(List.of(new Todo()), HttpStatus.OK);
 
     }

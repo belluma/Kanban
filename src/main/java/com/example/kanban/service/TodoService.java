@@ -40,7 +40,7 @@ public class TodoService {
         checkIfTitleAndDescriptionGiven(title, description);
         return new Todo(title, description);
     }
-
+//adjust returns - db.save does not return required result??!?
     private Todo advanceTodoStatus(Todo todo) {
         if (todo.getStatus() == TODO) {
             todo.setStatus(DOING);
@@ -72,7 +72,7 @@ public class TodoService {
                 .toList());
     }
 
-    public Todo updateTodoContent(Integer id, String title, String description) {
+    public Todo updateTodoContent(Integer id, String title, String description) throws IllegalArgumentException, NoSuchElementException{
         checkIfTitleAndDescriptionGiven(title, description);
         Todo todoToUpdate = getTodoById(id);
         todoToUpdate.setTitle(title);
