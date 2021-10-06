@@ -60,11 +60,10 @@ public class TodoService {
     }
 
     public List<Todo> updateTodos(List<Integer> ids, boolean advance) throws NoSuchElementException {
-        List<Todo> todosToUpdate = ids.stream()
+        return   ids.stream()
                 .map(this::getTodoById)
                 .map(advance ? this::advanceTodoStatus : this::reverseTodoStatus)
                 .toList();
-        return todosToUpdate;
     }
 
     public void deleteTodos(List<Integer> ids) {
