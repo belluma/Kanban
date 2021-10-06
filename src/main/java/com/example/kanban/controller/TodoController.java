@@ -1,22 +1,37 @@
 package com.example.kanban.controller;
 
 import com.example.kanban.model.Todo;
+import com.example.kanban.service.TodoService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("api/todo")
+@RequiredArgsConstructor
 public class TodoController {
+
+    @Autowired
+    private final TodoService todoService;
 
     @GetMapping
     public ResponseEntity<List<Todo>> getAllTodos(){
-        return new ResponseEntity<>(List.of(new Todo()), HttpStatus.OK);
+        System.out.println("Controller");
+        try {
+            return new ResponseEntity(todoService.getAllTodos(), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
     @GetMapping(path="{id}")
     public ResponseEntity<Todo> getTodoById(@PathVariable String id){
+        todoService.getAllTodos();
+
         return new ResponseEntity<>(new Todo(), HttpStatus.OK);
     }
     @GetMapping(path="{query}")

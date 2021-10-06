@@ -40,7 +40,7 @@ public class TodoService {
         checkIfTitleAndDescriptionGiven(title, description);
         return new Todo(title, description);
     }
-//adjust returns - db.save does not return required result??!?
+
     private Todo advanceTodoStatus(Todo todo) {
         if (todo.getStatus() == TODO) {
             todo.setStatus(DOING);
