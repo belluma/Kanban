@@ -45,12 +45,14 @@ public class TodoController {
 
     }
     @PostMapping()
-    public ResponseEntity<Todo> createTodo(@RequestBody Todo todo){
-        try {
-            return new ResponseEntity<>(todoService.createTodo(todo.getTitle(), todo.getDescription()), HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        }
+    public ResponseEntity<Todo> createTodo(@RequestBody Todo todo)throws NoSuchElementException{
+        return new ResponseEntity<>(todoService.createTodo(todo.getTitle(), todo.getDescription()),
+        HttpStatus.OK);
+//        try {
+//            return new ResponseEntity<>(todoService.createTodo(todo.getTitle(), todo.getDescription()), HttpStatus.OK);
+//        } catch (IllegalArgumentException e) {
+//            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+//        }
 
     }
     @PutMapping(path="{advance}")
