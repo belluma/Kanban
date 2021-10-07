@@ -39,7 +39,7 @@ public class TodoService {
 
     public Todo createTodo(String title, String description) throws IllegalArgumentException {
         checkIfTitleAndDescriptionGiven(title, description);
-        return new Todo(title, description);
+        return todoRepo.save(new Todo(title, description));
     }
 
     private Todo advanceTodoStatus(Todo todo) {
