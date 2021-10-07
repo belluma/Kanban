@@ -69,7 +69,6 @@ public class TodoControllerUnitTest extends TestCase {
         when(todoService.getAllTodos()).thenReturn(todos);
         this.mockMvc.perform(get("/api/todo"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("index"))
                 .andDo(MockMvcResultHandlers.print());
     }
 
@@ -78,22 +77,20 @@ public class TodoControllerUnitTest extends TestCase {
         when(todoService.getAllTodos()).thenThrow(new NoSuchElementException());
         this.mockMvc.perform(get("/api/todo"))
                 .andExpect(status().isNoContent())
-                .andExpect(view().name("index"))
                 .andDo(MockMvcResultHandlers.print());
     }
 
     @Test
     public void testGetTodoById() throws Exception {
-        when(todoService.getTodoById(1)).thenReturn(todos.get(0));
+        when(todoService.getTodoById("1")).thenReturn(todos.get(0));
         this.mockMvc.perform(get("/1"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("index"))
                 .andDo(MockMvcResultHandlers.print());
     }
 
     @Test
     public void testGetTodoByIdReturnsError() throws Exception {
-        when(todoService.getTodoById(1)).thenThrow(new NoSuchElementException());
+        when(todoService.getTodoById("1")).thenThrow(new NoSuchElementException());
         this.mockMvc.perform(get("/1"))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("index"))
@@ -161,7 +158,7 @@ public class TodoControllerUnitTest extends TestCase {
 
     @Test
     public void testUpdateTodos() throws Exception {
-        when(todoService.updateTodos(List.of(1), true))
+        when(todoService.updateTodos(List.of("1"), true))
                 .thenReturn(todos);
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
@@ -188,7 +185,7 @@ public class TodoControllerUnitTest extends TestCase {
 
     @Test
     public void testUpdateTodosReturnsError() throws Exception {
-        when(todoService.updateTodos(List.of(1), true))
+        when(todoService.updateTodos(List.of("1"), true))
                 .thenThrow(new NoSuchElementException());
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
@@ -215,7 +212,7 @@ public class TodoControllerUnitTest extends TestCase {
 
     @Test
     public void testUpdateTodoContent() throws Exception {
-        when(todoService.updateTodoContent(1, "Title", "description"))
+        when(todoService.updateTodoContent("1", "Title", "description"))
                 .thenReturn(todos.get(0));
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
@@ -236,7 +233,7 @@ public class TodoControllerUnitTest extends TestCase {
     @Test
     public void testUpdateTodoContentReturnsErrorWhenNotFound() throws Exception {
         Todo todo = new Todo("Title", "description");
-        when(todoService.updateTodoContent(123, "Title", "description"))
+        when(todoService.updateTodoContent("123", "Title", "description"))
                 .thenThrow(new NoSuchElementException());
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
@@ -257,7 +254,7 @@ public class TodoControllerUnitTest extends TestCase {
     @Test
     public void testUpdateTodoContentReturnsErrorWhenNoTextOrDescriptionGiven() throws Exception {
         Todo todo = new Todo("Title", "");
-        when(todoService.updateTodoContent(1, "Title", ""))
+        when(todoService.updateTodoContent("1", "Title", ""))
                 .thenThrow(new IllegalArgumentException());
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;

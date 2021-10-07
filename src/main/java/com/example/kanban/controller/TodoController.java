@@ -30,9 +30,13 @@ public class TodoController {
     }
     @GetMapping(path="{id}")
     public ResponseEntity<Todo> getTodoById(@PathVariable String id){
-        todoService.getAllTodos();
+        try {
+            return new ResponseEntity<>(todoService.getTodoById(id), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-        return new ResponseEntity<>(new Todo(), HttpStatus.OK);
+//        return new ResponseEntity<>(new Todo(), HttpStatus.OK);
     }
     @GetMapping(path="{query}")
     public ResponseEntity<List<Todo>>searchTodos(@PathVariable String query){

@@ -3,6 +3,7 @@ package com.example.kanban.service;
 import com.example.kanban.model.Todo;
 
 import static com.example.kanban.model.TodoStatus.*;
+import static java.lang.Integer.parseInt;
 
 import com.example.kanban.repo.TodoRepository;
 import lombok.Data;
@@ -26,10 +27,10 @@ public class TodoService {
         throw new NoSuchElementException("No Todos in Database yet");
     }
 
-    public Todo getTodoById(Integer id) throws NoSuchElementException {
-        Optional<Todo> todo = todoRepo.findById(id);
+    public Todo getTodoById(String id) throws NoSuchElementException, NumberFormatException{
+        Optional<Todo> todo = todoRepo.findById(parseInt(id));
         if (todo.isPresent()) return todo.get();
-        throw new NoSuchElementException(String.format("No Todo with id %d found", id));
+        throw new NoSuchElementException(String.format("No Todo with id %s found", id));
     }
 
     public List<Todo> getTodosByText(String searchQuery) throws NoSuchElementException {
@@ -59,20 +60,20 @@ public class TodoService {
         return todoRepo.save(todo);
     }
 
-    public List<Todo> updateTodos(List<Integer> ids, boolean advance) throws NoSuchElementException {
+    public List<Todo> updateTodos(List<String> ids, boolean advance) throws NoSuchElementException {
         return   ids.stream()
                 .map(this::getTodoById)
                 .map(advance ? this::advanceTodoStatus : this::reverseTodoStatus)
                 .toList();
     }
 
-    public void deleteTodos(List<Integer> ids) {
+    public void deleteTodos(List<String> ids) {
         todoRepo.deleteAll(ids.stream()
                 .map(this::getTodoById)
                 .toList());
     }
 
-    public Todo updateTodoContent(Integer id, String title, String description) throws IllegalArgumentException, NoSuchElementException{
+    public Todo updateTodoContent(String id, String title, String description) throws IllegalArgumentException, NoSuchElementException{
         checkIfTitleAndDescriptionGiven(title, description);
         Todo todoToUpdate = getTodoById(id);
         todoToUpdate.setTitle(title);

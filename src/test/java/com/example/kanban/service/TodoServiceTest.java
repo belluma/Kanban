@@ -40,14 +40,19 @@ class TodoServiceTest {
     @Test
     void getTodoById() {
         when(todoRepository.findById(1)).thenReturn(Optional.of(new Todo("Title", "description")));
-        Todo actual = todoService.getTodoById(1);
+        Todo actual = todoService.getTodoById("1");
         assertThat(actual).isEqualTo(new Todo("Title", "description"));
     }
 
     @Test
     void getTodoByIdThrowsWhenNotFound() {
         when(todoRepository.findById(1)).thenReturn(Optional.empty());
-        assertThrows(NoSuchElementException.class, () -> todoService.getTodoById(1));
+        assertThrows(NoSuchElementException.class, () -> todoService.getTodoById("1"));
+        verify(todoRepository).findById(1);
+    }
+@Test
+    void getTodoByIdThrowsWhenWrongParameter() {
+        assertThrows(NumberFormatException.class, () -> todoService.getTodoById("fdsa"));
     }
 
     @Test
@@ -82,27 +87,27 @@ class TodoServiceTest {
         when(todoRepository.findById(1)).thenReturn(Optional.of(todo));
         todo.setStatus(TodoStatus.DOING);
         when(todoRepository.save(todo)).thenReturn(todo);
-        List<Todo> actual = todoService.updateTodos(List.of(1), true);
+        List<Todo> actual = todoService.updateTodos(List.of("1"), true);
         assertThat(actual.get(0)).isEqualTo(todo);
     }
 
     @Test
     void updateTodoThrowsWhenNotFound() {
         when(todoRepository.findById(1)).thenReturn(Optional.empty());
-        assertThrows(NoSuchElementException.class, () -> todoService.updateTodos(List.of(1), false));
+        assertThrows(NoSuchElementException.class, () -> todoService.updateTodos(List.of("1"), false));
     }
 
     @Test
     void deleteTodos() {
         Todo todo = new Todo("title", "description");
         when(todoRepository.findById(1)).thenReturn(Optional.of(todo));
-        assertDoesNotThrow(() -> todoService.deleteTodos(List.of(1)));
+        assertDoesNotThrow(() -> todoService.deleteTodos(List.of("1")));
     }
 
     @Test
     void deleteTodoThrowsWhenNotFound() {
         when(todoRepository.findById(1)).thenReturn(Optional.empty());
-        assertThrows(NoSuchElementException.class, () -> todoService.deleteTodos(List.of(1)));
+        assertThrows(NoSuchElementException.class, () -> todoService.deleteTodos(List.of("1")));
     }
 
     @Test
@@ -110,22 +115,22 @@ class TodoServiceTest {
         Todo todo = new Todo("Title", "description");
         Todo updatedTodo = new Todo("new title", "better description");
         when(todoRepository.findById(1)).thenReturn(Optional.of(todo));
-        Todo actual = todoService.updateTodoContent(1, "new title", "better description");
+        Todo actual = todoService.updateTodoContent("1", "new title", "better description");
         assertThat(actual).isEqualTo(updatedTodo);
 
     }
 
     @Test
     void updateTodoContentThrowsWhenTitleOrDescriptionEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> todoService.updateTodoContent(1, "", "description"));
-        assertThrows(IllegalArgumentException.class, () -> todoService.updateTodoContent(1, "Title", ""));
+        assertThrows(IllegalArgumentException.class, () -> todoService.updateTodoContent("1", "", "description"));
+        assertThrows(IllegalArgumentException.class, () -> todoService.updateTodoContent("1", "Title", ""));
 
     }
 
     @Test
     void updateTodoContentThrowsWhenNotFound() {
         when(todoRepository.findById(1)).thenReturn(Optional.empty());
-        assertThrows(IllegalArgumentException.class, () -> todoService.updateTodoContent(1, "Title", ""));
+        assertThrows(IllegalArgumentException.class, () -> todoService.updateTodoContent("1", "Title", ""));
     }
 
 }
