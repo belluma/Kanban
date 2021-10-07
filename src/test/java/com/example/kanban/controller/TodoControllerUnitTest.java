@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static com.example.kanban.service.TodoService.DBEmptyMessage;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -61,9 +62,9 @@ public class TodoControllerUnitTest extends TestCase {
 
     @Before
     public void setup() throws Exception {
-        System.out.println("before test");
-        this.mockMvc = standaloneSetup(this.todoController).build();
-        System.out.println("aftre standalonesetup");
+        this.mockMvc = standaloneSetup(this.todoController)
+                .setControllerAdvice(new GlobalExceptionHandler())
+                .build();
         Todo todo1 = new Todo("Title", "description");
         Todo todo2 = new Todo("Title 2", "longer description");
         todos = new ArrayList<>();
@@ -82,7 +83,7 @@ public class TodoControllerUnitTest extends TestCase {
 
     @Test
     public void testGetAllTodosReturnsError() throws Exception {
-        when(todoService.getAllTodos()).thenThrow(new NoSuchElementException());
+        when(todoService.getAllTodos()).thenThrow(new NoSuchElementException(DBEmptyMessage));
         this.mockMvc.perform(get("/api/todo"))
                 .andExpect(status().isNoContent())
                 .andDo(MockMvcResultHandlers.print());

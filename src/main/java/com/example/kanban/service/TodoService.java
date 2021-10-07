@@ -20,11 +20,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TodoService {
     private final TodoRepository todoRepo;
+    public final static String DBEmptyMessage = "No Todos in Database yet";
 
     public List<Todo> getAllTodos() throws NoSuchElementException {
         List<Todo> result = todoRepo.findAll();
         if (!result.isEmpty()) return result;
-        throw new NoSuchElementException("No Todos in Database yet");
+        throw new NoSuchElementException(DBEmptyMessage);
     }
 
     public Todo getTodoById(String id) throws NoSuchElementException, NumberFormatException {

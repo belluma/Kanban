@@ -10,18 +10,40 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.Date;
+import java.util.NoSuchElementException;
+
+import static com.example.kanban.service.TodoService.DBEmptyMessage;
 
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = {Exception.class})
-    public ResponseEntity<Object> handleAnyException(Exception ex, WebRequest request){
-
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> handleIllegalArgumentException(Exception ex, WebRequest request){
         String errorMessage = ex.getLocalizedMessage();
         if(errorMessage == null) errorMessage = ex.toString();
         CustomError message = new CustomError(new Date(), errorMessage);
 
-        return new ResponseEntity<Object>(message, new HttpHeaders(), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+        return new ResponseEntity<Object>(message, new HttpHeaders(), HttpStatus.NOT_ACCEPTABLE);
     }
+@ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<Object> handleNoSuchElementException(Exception ex, WebRequest request){
+        String errorMessage = ex.getLocalizedMessage();
+        if(errorMessage == null) errorMessage = ex.toString();
+        CustomError message = new CustomError(new Date(), errorMessage);
+    System.out.println(errorMessage);
+        if(errorMessage.equals(DBEmptyMessage)){
+        return new ResponseEntity<Object>(message, new HttpHeaders(), HttpStatus.NO_CONTENT);}
+        return new ResponseEntity<Object>(message, new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+@ExceptionHandler(NumberFormatException.class)
+    public ResponseEntity<Object> handleNumberFormatException(Exception ex, WebRequest request){
+        String errorMessage = ex.getLocalizedMessage();
+        if(errorMessage == null) errorMessage = ex.toString();
+        CustomError message = new CustomError(new Date(), errorMessage);
+
+        return new ResponseEntity<Object>(message, new HttpHeaders(), HttpStatus.NOT_ACCEPTABLE);
+    }
+
+
 }
