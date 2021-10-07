@@ -35,28 +35,42 @@ public class TodoController {
         } catch (NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-//        return new ResponseEntity<>(new Todo(), HttpStatus.OK);
     }
-    @GetMapping(path="{query}")
+    @GetMapping(path="query/{query}")
     public ResponseEntity<List<Todo>>searchTodos(@PathVariable String query){
-        return new ResponseEntity<>(List.of(new Todo()), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(todoService.getTodosByText(query), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
     }
     @PostMapping()
     public ResponseEntity<Todo> createTodo(@RequestBody Todo todo){
-        return new ResponseEntity<>(new Todo(), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(todoService.createTodo(todo.getTitle(), todo.getDescription()), HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
 
     }
     @PutMapping(path="{advance}")
-    public ResponseEntity<List<Todo>> updateTodos(@RequestBody List<Integer> ids, @PathVariable String advance){
-        return new ResponseEntity<>(List.of(new Todo()), HttpStatus.OK);
-
+    public ResponseEntity<List<Todo>> updateTodos(@RequestBody List<String> ids, @PathVariable String advance){
+        try {
+            return new ResponseEntity<>(todoService.updateTodos(ids, advance), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
     @PutMapping()
     public ResponseEntity<Todo> updateTodoContent(@RequestBody Todo todo){
         return new ResponseEntity<>(new Todo(), HttpStatus.OK);
 
+    }
+    @DeleteMapping(path="{id}")
+    public ResponseEntity<Todo> deleteTodo(@PathVariable List<String> ids){
+        todoService.deleteTodos(ids);
+        return new ResponseEntity<>(new Todo(), HttpStatus.OK);
     }
 
 

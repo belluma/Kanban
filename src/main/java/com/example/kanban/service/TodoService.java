@@ -60,10 +60,11 @@ public class TodoService {
         return todoRepo.save(todo);
     }
 
-    public List<Todo> updateTodos(List<String> ids, boolean advance) throws NoSuchElementException {
+    public List<Todo> updateTodos(List<String> ids, String advance) throws NoSuchElementException {
+        boolean adv = advance == "1" ? true : false;
         return   ids.stream()
                 .map(this::getTodoById)
-                .map(advance ? this::advanceTodoStatus : this::reverseTodoStatus)
+                .map(adv ? this::advanceTodoStatus : this::reverseTodoStatus)
                 .toList();
     }
 

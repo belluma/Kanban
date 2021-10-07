@@ -102,7 +102,7 @@ class TodoServiceTest {
         when(todoRepository.findById(1)).thenReturn(Optional.of(todo));
         todo.setStatus(TodoStatus.DOING);
         when(todoRepository.save(todo)).thenReturn(todo);
-        List<Todo> actual = todoService.updateTodos(List.of("1"), true);
+        List<Todo> actual = todoService.updateTodos(List.of("1"), "1");
         assertThat(actual.get(0)).isEqualTo(todo);
         verify(todoRepository).findById(1);
         verify(todoRepository).save(todo);
@@ -111,7 +111,7 @@ class TodoServiceTest {
     @Test
     void updateTodoThrowsWhenNotFound() {
         when(todoRepository.findById(1)).thenReturn(Optional.empty());
-        assertThrows(NoSuchElementException.class, () -> todoService.updateTodos(List.of("1"), false));
+        assertThrows(NoSuchElementException.class, () -> todoService.updateTodos(List.of("1"), "0"));
         verify(todoRepository).findById(1);
     }
 
