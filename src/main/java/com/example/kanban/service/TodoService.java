@@ -27,7 +27,7 @@ public class TodoService {
         throw new NoSuchElementException("No Todos in Database yet");
     }
 
-    public Todo getTodoById(String id) throws NoSuchElementException, NumberFormatException{
+    public Todo getTodoById(String id) throws NoSuchElementException, NumberFormatException {
         Optional<Todo> todo = todoRepo.findById(parseInt(id));
         if (todo.isPresent()) return todo.get();
         throw new NoSuchElementException(String.format("No Todo with id %s found", id));
@@ -61,8 +61,8 @@ public class TodoService {
     }
 
     public List<Todo> updateTodos(List<String> ids, String advance) throws NoSuchElementException {
-        boolean adv = advance == "1" ? true : false;
-        return   ids.stream()
+        boolean adv = advance.equals("1");
+        return ids.stream()
                 .map(this::getTodoById)
                 .map(adv ? this::advanceTodoStatus : this::reverseTodoStatus)
                 .toList();
@@ -74,7 +74,11 @@ public class TodoService {
                 .toList());
     }
 
-    public Todo updateTodoContent(String id, String title, String description) throws IllegalArgumentException, NoSuchElementException{
+
+    public Todo updateTodoContent(Todo todo) throws IllegalArgumentException, NoSuchElementException {
+        String id = String.valueOf(todo.getId());
+        String title = String.valueOf(todo.getTitle());
+        String description = String.valueOf(todo.getDescription());
         checkIfTitleAndDescriptionGiven(title, description);
         Todo todoToUpdate = getTodoById(id);
         todoToUpdate.setTitle(title);
@@ -84,8 +88,9 @@ public class TodoService {
     }
 
     private void checkIfTitleAndDescriptionGiven(String title, String description) throws IllegalArgumentException {
-        if (title.length() == 0 || description.length() == 0)
-            throw new IllegalArgumentException("No title or description defined");
+        if (title.length() == 0)
+            throw new IllegalArgumentException("No title defined");
+        if (description.length() == 0) throw new IllegalArgumentException("No description defined");
     }
 
 }

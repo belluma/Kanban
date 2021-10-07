@@ -135,22 +135,25 @@ class TodoServiceTest {
         Todo todo = new Todo("Title", "description");
         Todo updatedTodo = new Todo("new title", "better description");
         when(todoRepository.findById(1)).thenReturn(Optional.of(todo));
-        Todo actual = todoService.updateTodoContent("1", "new title", "better description");
+        Todo actual = todoService.updateTodoContent(todo);
         assertThat(actual).isEqualTo(updatedTodo);
         verify(todoRepository).findById(1);
     }
 
     @Test
     void updateTodoContentThrowsWhenTitleOrDescriptionEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> todoService.updateTodoContent("1", "", "description"));
-        assertThrows(IllegalArgumentException.class, () -> todoService.updateTodoContent("1", "Title", ""));
+        Todo todo = new Todo("", "description");
+        Todo todo2 = new Todo("Title", "");
+        assertThrows(IllegalArgumentException.class, () -> todoService.updateTodoContent(todo));
+        assertThrows(IllegalArgumentException.class, () -> todoService.updateTodoContent(todo2));
         verify(todoRepository, never()).save(todoCaptor.capture());
     }
 
     @Test
     void updateTodoContentThrowsWhenNotFound() {
+        Todo todo = new Todo("Title", "description");
         when(todoRepository.findById(1)).thenReturn(Optional.empty());
-        assertThrows(NoSuchElementException.class, () -> todoService.updateTodoContent("1", "Title", "description"));
+        assertThrows(NoSuchElementException.class, () -> todoService.updateTodoContent(todo));
         verify(todoRepository).findById(1);
         verify(todoRepository, never()).save(todoCaptor.capture());
     }

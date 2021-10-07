@@ -21,7 +21,6 @@ public class TodoController {
 
     @GetMapping
     public ResponseEntity<List<Todo>> getAllTodos(){
-        System.out.println("Controller");
         try {
             return new ResponseEntity(todoService.getAllTodos(), HttpStatus.OK);
         } catch (NoSuchElementException e) {
@@ -64,7 +63,13 @@ public class TodoController {
     }
     @PutMapping()
     public ResponseEntity<Todo> updateTodoContent(@RequestBody Todo todo){
-        return new ResponseEntity<>(new Todo(), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(todoService.updateTodoContent(todo), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch(IllegalArgumentException e){
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
 
     }
     @DeleteMapping(path="{id}")

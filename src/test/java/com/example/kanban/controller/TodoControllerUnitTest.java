@@ -197,6 +197,8 @@ public class TodoControllerUnitTest extends TestCase {
     public void testUpdateTodosReturnsError() throws Exception {
         when(todoService.updateTodos(List.of("1"), "1"))
                 .thenThrow(new NoSuchElementException());
+        when(todoService.updateTodos(List.of("1"), "0"))
+                .thenThrow(new NoSuchElementException());
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
         try {
@@ -204,7 +206,7 @@ public class TodoControllerUnitTest extends TestCase {
         } catch (JsonProcessingException e) {
             fail();
         }
-        this.mockMvc.perform(put("api/todo/1")
+        this.mockMvc.perform(put("/api/todo/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json)
                         .characterEncoding("utf-8"))
@@ -221,7 +223,9 @@ public class TodoControllerUnitTest extends TestCase {
 
     @Test
     public void testUpdateTodoContent() throws Exception {
-        when(todoService.updateTodoContent("1", "Title", "description"))
+        Todo todo = todos.get(0);
+        System.out.println(todo);
+        when(todoService.updateTodoContent(todo))
                 .thenReturn(todos.get(0));
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
@@ -230,19 +234,19 @@ public class TodoControllerUnitTest extends TestCase {
         } catch (JsonProcessingException e) {
             fail();
         }
-        this.mockMvc.perform(put("api/todo")
+        this.mockMvc.perform(put("/api/todo")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json)
                         .characterEncoding("utf-8"))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
-        verify(todoService).updateTodoContent("1", "Title", "description");
+        verify(todoService).updateTodoContent(todo);
     }
 
     @Test
     public void testUpdateTodoContentReturnsErrorWhenNotFound() throws Exception {
-        Todo todo = new Todo("Title", "description");
-        when(todoService.updateTodoContent("123", "Title", "description"))
+        Todo todo = todos.get(0);
+        when(todoService.updateTodoContent(todo))
                 .thenThrow(new NoSuchElementException());
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
@@ -257,13 +261,14 @@ public class TodoControllerUnitTest extends TestCase {
                         .characterEncoding("utf-8"))
                 .andExpect(status().isNotFound())
                 .andDo(MockMvcResultHandlers.print());
-        verify(todoService).updateTodoContent("123", "Title", "description");
+        verify(todoService).updateTodoContent(todo);
     }
 
+    //add tests for different error messages
     @Test
-    public void testUpdateTodoContentReturnsErrorWhenNoTextOrDescriptionGiven() throws Exception {
-        Todo todo = new Todo("Title", "");
-        when(todoService.updateTodoContent("1", "Title", ""))
+    public void testUpdateTodoContentReturnsErrorWhenNoTitleGiven() throws Exception {
+        Todo todo = todos.get(0);
+        when(todoService.updateTodoContent(todo))
                 .thenThrow(new IllegalArgumentException());
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
@@ -278,6 +283,27 @@ public class TodoControllerUnitTest extends TestCase {
                         .characterEncoding("utf-8"))
                 .andExpect(status().isNotAcceptable())
                 .andDo(MockMvcResultHandlers.print());
-        verify(todoService).updateTodoContent("1", "Title", "");
+        verify(todoService).updateTodoContent(todo);
+    }
+
+    @Test
+    public void testUpdateTodoContentReturnsErrorWhenNoDescriptionGiven() throws Exception {
+        Todo todo = todos.get(0);
+        when(todoService.updateTodoContent(todo))
+                .thenThrow(new IllegalArgumentException());
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = null;
+        try {
+            json = objectMapper.writeValueAsString(todo);
+        } catch (JsonProcessingException e) {
+            fail();
+        }
+        this.mockMvc.perform(put("/api/todo")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json)
+                        .characterEncoding("utf-8"))
+                .andExpect(status().isNotAcceptable())
+                .andDo(MockMvcResultHandlers.print());
+        verify(todoService).updateTodoContent(todo);
     }
 }
