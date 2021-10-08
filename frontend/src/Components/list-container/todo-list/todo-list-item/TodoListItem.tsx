@@ -1,28 +1,50 @@
 import React from 'react'
-import {ListItem, ListItemIcon} from "@mui/material";
+import {useDispatch} from "react-redux";
+import {
+    checkTodos,
+    selectCheckedDone,
+    selectCheckedDoing,
+    selectCheckedTodo
+} from "../../desktop-list-container/button-container/ButtonSlicer";
+import {useAppSelector} from "../../../../app/hooks";
 
 //component imports
 import Todo from "./todo/Todo";
+import {Checkbox, ListItem, ListItemIcon} from "@mui/material";
 
 //interface imports
 import {ITodo} from "../../../../interfaces/ITodo";
-type Props = {todo: ITodo}
 
-function TodoListItem({todo}: Props){
+type Props = { todo: ITodo }
+
+function TodoListItem({todo}: Props) {
+    const dispatch = useDispatch();
+    const left = useAppSelector(selectCheckedTodo);
+    const middle = useAppSelector(selectCheckedDoing);
+    const right = useAppSelector(selectCheckedDone);
     const {id, title, description, status} = todo
-    const handleToggle = () => {
+    const handleToggle = (e: React.MouseEvent) => {
+        console.log(e)
     };
-    return(
+    return (
         <ListItem
             key={id}
             role="listitem"
-            // button
-            // onClick={handleToggle()}
+
         >
             <ListItemIcon>
-
+                <Checkbox
+                    // checked={checked}
+                    tabIndex={-1}
+                    disableRipple
+                    onClick={() => dispatch(checkTodos({id, status}))}
+                    // inputProps={{
+                    //     'aria-labelledby': labelId,
+                    // }}
+                />
             </ListItemIcon>
-            <Todo id={id} title={title} description={description} status={status}/>
+            <Todo id={id} title={title} description={description}
+                  status={status}/>
         </ListItem>
     )
 }

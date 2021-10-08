@@ -1,12 +1,12 @@
 import React from 'react'
-import {ITodoStatus} from "../../../interfaces/ITodo";
-import TodoList from "../todo-list/TodoList";
-import {Container, Grid} from "@mui/material";
-import ButtonContainer from "./button-container/ButtonContainer";
 
 //component imports
+import {Grid} from "@mui/material";
+import ButtonContainer from "./button-container/ButtonContainer";
+import TodoList from "../todo-list/TodoList";
 
 //interface imports
+import {ITodoStatus} from "../../../interfaces/ITodo";
 
 type Props = {};
 
@@ -15,17 +15,15 @@ function DesktopListContainer(props: Props) {
         <TodoList todoStatus={ITodoStatus[key]} key={key}/>)
 
     return (
-
         <Grid container spacing={2} justifyContent="center" alignItems="center">
             <Grid item>
                 {lists[0]}
             </Grid>
-            <ButtonContainer/>
+            <ButtonContainer />
             <Grid item>
                 {lists[1]}
             </Grid>
             <ButtonContainer/>
-
             <Grid item>
                 {lists[2]}
             </Grid>

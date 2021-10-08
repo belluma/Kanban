@@ -1,13 +1,22 @@
 import React from 'react'
-import {Button, Grid} from "@mui/material";
+import { useAppDispatch } from '../../../../app/hooks';
 
 //component imports
+import {Button, Grid} from "@mui/material";
 
 //interface imports
 
-type Props = {};
+type Props = {
+    // disableAdvance: boolean,
+    // disableRevert: boolean,
+    // checked: number[]
+};
 
 function ButtonContainer(props: Props){
+    const dispatch = useAppDispatch();
+    // const checkedLeft, checkedRight;
+
+
     return(
         <Grid item xs={1}>
         <Grid container direction="column" alignItems="center">
@@ -15,7 +24,7 @@ function ButtonContainer(props: Props){
                 sx={{my: 0.5}}
                 variant="outlined"
                 size="small"
-                // onClick={() => advanceTodo('doing')}
+                // onClick={() => dispatch(test("abc"))}
                 // disabled={left.length === 0}
                 aria-label="move selected right"
             >

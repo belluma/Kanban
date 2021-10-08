@@ -1,12 +1,9 @@
 import React from 'react'
-import TodoList from "./todo-list/TodoList";
-
 
 //component imports
 import {Container, Fab, Toolbar} from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import ScrollTop from "./scroll-to-top/ScrollToTop";
-import {ITodoStatus} from "../../interfaces/ITodo";
 import DesktopListContainer
     from "./desktop-list-container/DesktopListContainer";
 
@@ -14,12 +11,10 @@ import DesktopListContainer
 
 type Props = {};
 
-
-
 function ListContainer(props: Props){
     return(<div>
         <Toolbar id="back-to-top-anchor"/>
-        <Container maxWidth={false}>
+        <Container maxWidth={false} sx={{paddingTop:10}}>
             <DesktopListContainer />
         </Container>
     <ScrollTop {...props}>
@@ -28,8 +23,6 @@ function ListContainer(props: Props){
         </Fab>
     </ScrollTop></div>
     )
-
-
 }
 
 export default ListContainer;

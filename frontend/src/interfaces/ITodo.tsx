@@ -12,6 +12,11 @@ export interface ITodoList {
     DOING: ITodo[],
     DONE: ITodo[],
 }
+export interface ITodoChecked {
+    TODO: number[],
+    DOING: number[],
+    DONE: number[],
+}
 
 export enum ITodoStatus {
     TODO = "TODO",

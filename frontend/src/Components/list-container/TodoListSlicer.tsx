@@ -14,7 +14,6 @@ export const getApiData = createAsyncThunk(
     'todoList/fetchTodos'
     ,async() =>{
         const response = await (getAllTodos());
-        console.log(response)
         return response;
     }
 )
@@ -22,9 +21,7 @@ export const getApiData = createAsyncThunk(
 export const todoListSlice = createSlice({
     name:'todoList',
     initialState,
-    reducers:{
-getAllTodos:(a) =>{return a}
-    },
+    reducers:{},
     extraReducers: (builder => {
         builder
             .addCase(getApiData.pending, state => {})
@@ -32,7 +29,6 @@ getAllTodos:(a) =>{return a}
                 state.TODO = [...action.payload.filter(todo => todo.status === ITodoStatus.TODO)]
                 state.DOING = [...action.payload.filter(todo => todo.status === ITodoStatus.DOING)]
                 state.DONE = [...action.payload.filter(todo => todo.status === ITodoStatus.DONE)]
-                console.log(state)
             })
     })
 
