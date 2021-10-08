@@ -9,6 +9,7 @@ type Props = {};
 
 function ButtonContainer(props: Props){
     return(
+        <Grid item xs={1}>
         <Grid container direction="column" alignItems="center">
             <Button
                 sx={{my: 0.5}}
@@ -30,6 +31,7 @@ function ButtonContainer(props: Props){
             >
                 &lt;
             </Button>
+        </Grid>
         </Grid>
     )
 }
