@@ -5,6 +5,7 @@ import TodoList from "../todo-list/TodoList";
 //component imports
 import {Fab, Toolbar, useScrollTrigger} from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import ScrollTop from "../scroll-to-top/ScrollToTop";
 
 //interface imports
 
