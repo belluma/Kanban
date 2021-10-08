@@ -19,9 +19,7 @@ type Props = { todo: ITodo }
 
 function TodoListItem({todo}: Props) {
     const dispatch = useDispatch();
-    const left = useAppSelector(selectCheckedTodo);
-    const middle = useAppSelector(selectCheckedDoing);
-    const right = useAppSelector(selectCheckedDone);
+
     const {id, title, description, status} = todo
     const handleToggle = (e: React.MouseEvent) => {
         console.log(e)

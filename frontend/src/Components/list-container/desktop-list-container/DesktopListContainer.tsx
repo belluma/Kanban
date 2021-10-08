@@ -19,11 +19,11 @@ function DesktopListContainer(props: Props) {
             <Grid item>
                 {lists[0]}
             </Grid>
-            <ButtonContainer />
+            <ButtonContainer index={0} />
             <Grid item>
                 {lists[1]}
             </Grid>
-            <ButtonContainer/>
+            <ButtonContainer index={1}/>
             <Grid item>
                 {lists[2]}
             </Grid>

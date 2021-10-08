@@ -1,46 +1,63 @@
 import React from 'react'
-import { useAppDispatch } from '../../../../app/hooks';
+import {useAppDispatch, useAppSelector} from '../../../../app/hooks';
 
 //component imports
 import {Button, Grid} from "@mui/material";
+import {selectCheckedDoing, selectCheckedDone, selectCheckedTodo} from "./ButtonSlicer";
+import {updateTodos} from "../../../../services/apiService";
+import {getApiData} from "../../TodoListSlicer";
 
 //interface imports
 
 type Props = {
+    index:number
     // disableAdvance: boolean,
     // disableRevert: boolean,
     // checked: number[]
 };
 
-function ButtonContainer(props: Props){
+function ButtonContainer({index}: Props) {
     const dispatch = useAppDispatch();
-    // const checkedLeft, checkedRight;
 
+    const checkedLeft = useAppSelector(selectCheckedTodo);
+    const checkedMiddle = useAppSelector(selectCheckedDoing);
+    const checkedRight = useAppSelector(selectCheckedDone);
+    const advanceTodos = () => {
+        const ids = index ? checkedMiddle : checkedLeft;
+        console.log(123)
+        updateTodos(ids, true);
+        dispatch(getApiData())
+    }
+    const revertTodos = () => {
+        const ids = index ? checkedRight : checkedMiddle;
+        updateTodos(ids, false)
+        dispatch(getApiData())
+    }
 
-    return(
+    return (
         <Grid item xs={1}>
-        <Grid container direction="column" alignItems="center">
-            <Button
-                sx={{my: 0.5}}
-                variant="outlined"
-                size="small"
-                // onClick={() => dispatch(test("abc"))}
-                // disabled={left.length === 0}
-                aria-label="move selected right"
-            >
-                &gt;
-            </Button>
-            <Button
-                sx={{my: 0.5}}
-                variant="outlined"
-                size="small"
-                // onClick={() => revertTodo('doing')}
-                // disabled={middleChecked.length === 0}
-                aria-label="move selected left"
-            >
-                &lt;
-            </Button>
-        </Grid>
+            <Grid container direction="column" alignItems="center">
+                <Button
+                    sx={{my: 0.5}}
+                    variant="outlined"
+                    size="small"
+                    onClick={advanceTodos}
+                    // disabled={left.length === 0}
+                    aria-label="move selected right"
+                >
+                    &gt;
+                </Button>
+                <Button
+                    sx={{my: 0.5}}
+                    variant="outlined"
+                    size="small"
+                    onClick={revertTodos}
+                    // disabled={middleChecked.length === 0}
+                    aria-label="move selected left"
+                >
+                    &lt;
+                </Button>
+            </Grid>
         </Grid>
     )
 }

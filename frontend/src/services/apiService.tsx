@@ -35,16 +35,16 @@ export const createTodo = (todo: ITodo) => {
         .catch(err => console.log(err))
 };
 
-export const updateTodo = (todo: ITodo, advance: boolean) => {
+export const updateTodos = (ids:number[], advance: boolean) => {
     const pathv: number = parseInt(String(advance))
-
+console.log(pathv, 12312)
     // return axios({
     //     method: 'put',
     //     url: `api/todo/${pathv}`,
     //     data: todo,
     //
     // })
-    return axios.post(`/api/todo/${pathv}`)
+    return axios.put(`/api/todo/${pathv}`, ids)
         .then(response => response)
         .catch(err => console.log(err))
 };

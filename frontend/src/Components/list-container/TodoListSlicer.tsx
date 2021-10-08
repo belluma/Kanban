@@ -31,10 +31,8 @@ export const todoListSlice = createSlice({
                 state.DONE = [...action.payload.filter(todo => todo.status === ITodoStatus.DONE)]
             })
     })
-
 })
 
-// export const {getAllTodos} = todoListSlice.actions;
 const selectGetAllTodos = (state:RootState) =>  state.todoList.TODO;
 const selectGetAllDoing = (state:RootState) =>  state.todoList.DOING;
 const selectGetAllDone = (state:RootState) =>  state.todoList.DONE;
