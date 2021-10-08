@@ -5,7 +5,7 @@ import {ListItem, ListItemIcon} from "@mui/material";
 import Todo from "./todo/Todo";
 
 //interface imports
-import {ITodo} from "../../interfaces/ITodo";
+import {ITodo} from "../../../../interfaces/ITodo";
 
 
 function TodoListItem({id, title, description}: ITodo){

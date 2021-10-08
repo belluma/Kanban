@@ -19,6 +19,7 @@
     "axios": "^0.22.0",
     "bulma": "^0.9.3",
     "react": "^17.0.2",
+    "react-axios": "^2.0.5",
     "react-bulma-components": "^4.0.7",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.0",
@@ -46,5 +47,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "localhost:8080/"
 }

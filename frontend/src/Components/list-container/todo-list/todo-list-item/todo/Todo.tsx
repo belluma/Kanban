@@ -5,7 +5,7 @@ import {Card, CardContent, IconButton, Typography} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 //interface imports
-import {ITodo} from "../../../interfaces/ITodo";
+import {ITodo} from "../../../../../interfaces/ITodo";
 
 
 function Todo({id, title, description}: ITodo){
