@@ -5,3 +5,10 @@ export interface ITodo {
     created?:Date,
     deadline?:Date,
 }
+
+export interface ITodoList {
+    todo: ITodo[],
+    doing: ITodo[],
+    done: ITodo[],
+
+}
