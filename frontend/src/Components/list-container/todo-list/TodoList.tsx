@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react'
-import {useAppDispatch} from "../../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../../app/hooks";
 
 //component imports
 //interface imports
 import {ITodoStatus} from "../../../interfaces/ITodo";
 import Todo from "./todo-list-item/todo/Todo";
-import {getApiData} from "../TodoListSlicer";
+import {getApiData, todosByStatus} from "../TodoListSlicer";
 
 type Props = {
     todoStatus: ITodoStatus;
@@ -13,11 +13,8 @@ type Props = {
 
 function TodoList({todoStatus}:Props){
     const dispatch = useAppDispatch();
-    useEffect(() =>{
-        dispatch(getApiData())
-    })
-    const dummy = [...Array(50)].map(item => <li style={{fontSize:30}}>Life ho! sail to be robed.</li>)
-    const todoList = [<Todo id={1} title="title" description="description" status={ITodoStatus.DONE}/>]
+    const todos = useAppSelector(todosByStatus[todoStatus]);
+    const todoList = todos.map(todo => <Todo id={todo.id} title={todo.title} description={todo.description} status={todo.status}/>)
     return(
        <ul>{todoList}</ul>
     )

@@ -31,13 +31,19 @@ getAllTodos:(a) =>{return a}
                 state.TODO = [...action.payload.filter(todo => todo.status === ITodoStatus.TODO)]
                 state.DOING = [...action.payload.filter(todo => todo.status === ITodoStatus.DOING)]
                 state.DONE = [...action.payload.filter(todo => todo.status === ITodoStatus.DONE)]
+                console.log(state)
             })
     })
 
 })
 
 // export const {getAllTodos} = todoListSlice.actions;
-export const selectGetAllTodos = (state:RootState) =>  state.todoList.TODO;
-export const selectGetAllDoing = (state:RootState) =>  state.todoList.DOING;
-export const selectGetAllDone = (state:RootState) =>  state.todoList.DONE;
+const selectGetAllTodos = (state:RootState) =>  state.todoList.TODO;
+const selectGetAllDoing = (state:RootState) =>  state.todoList.DOING;
+const selectGetAllDone = (state:RootState) =>  state.todoList.DONE;
+export const todosByStatus = {
+    TODO: selectGetAllTodos,
+    DOING: selectGetAllDoing,
+    DONE: selectGetAllDone,
+}
 export default todoListSlice.reducer;
