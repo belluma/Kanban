@@ -2,7 +2,7 @@ export interface ITodo {
     id: number,
     title: string,
     description: string,
-    status: status,
+    status: ITodoStatus,
     created?: Date,
     deadline?: Date,
 }
@@ -13,7 +13,7 @@ export interface ITodoList {
     done: ITodo[],
 }
 
-export enum status {
+export enum ITodoStatus {
     TODO = "TODO",
     DOING = "DOING",
     DONE = "DONE"

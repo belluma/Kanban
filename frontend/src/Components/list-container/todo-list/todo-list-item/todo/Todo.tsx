@@ -8,7 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {ITodo} from "../../../../../interfaces/ITodo";
 
 
-function Todo({id, title, description}: ITodo){
+function Todo({id, title, description, status}: ITodo){
     const deleteTodo =  (id:number) => id
     return(
         <Card sx={{ minWidth: 275 }}>

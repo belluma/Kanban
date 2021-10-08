@@ -1,6 +1,6 @@
-import {createSlice, createAsyncThunk, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {getAllTodos} from '../../services/apiService'
-import {ITodoList} from "../../interfaces/ITodo";
+import {ITodo, ITodoList, ITodoStatus} from "../../interfaces/ITodo";
 import {RootState} from "../../app/store";
 
 
@@ -27,18 +27,17 @@ getAllTodos:(a) =>{return a}
     extraReducers: (builder => {
         builder
             .addCase(getApiData.pending, state => {})
-            .addCase(getApiData.fulfilled, (state, action) => {
-                console.log(123)
-                            // state.todo = [...action.payload.filter(todo => todo.status === 'todo')]
-                            // state.doing = [...action.payload.filter(todo => todo.status === 'doing')]
-                            // state.done = [...action.payload.filter(todo => todo.status === 'done')]
+            .addCase(getApiData.fulfilled, (state, action:PayloadAction<ITodo[]>) => {
+                state.todo = [...action.payload.filter(todo => todo.status === ITodoStatus.TODO)]
+                state.doing = [...action.payload.filter(todo => todo.status === ITodoStatus.DOING)]
+                state.done = [...action.payload.filter(todo => todo.status === ITodoStatus.DONE)]
             })
     })
 
 })
 
 // export const {getAllTodos} = todoListSlice.actions;
-// export const selectGetAllTodos = (state:RootState) =>  state.todoList.todos;
-// export const selectGetAllDoing = (state:RootState) =>  state.todoList.doing;
-// export const selectGetAllDone = (state:RootState) =>  state.todoList.done;
+export const selectGetAllTodos = (state:RootState) =>  state.todoList.todo;
+export const selectGetAllDoing = (state:RootState) =>  state.todoList.doing;
+export const selectGetAllDone = (state:RootState) =>  state.todoList.done;
 export default todoListSlice.reducer;

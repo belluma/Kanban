@@ -8,7 +8,7 @@ import Todo from "./todo/Todo";
 import {ITodo} from "../../../../interfaces/ITodo";
 
 
-function TodoListItem({id, title, description}: ITodo){
+function TodoListItem({id, title, description, status}: ITodo){
     const handleToggle = () => {
     };
     return(
@@ -21,7 +21,7 @@ function TodoListItem({id, title, description}: ITodo){
             <ListItemIcon>
 
             </ListItemIcon>
-            <Todo id={id} title={title} description={description}/>
+            <Todo id={id} title={title} description={description} status={status}/>
         </ListItem>
     )
 }
