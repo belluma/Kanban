@@ -29,7 +29,8 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
+<!--			<scope>runtime</scope>-->
+		<version>42.2.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -52,33 +53,19 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.testcontainers/postgresql -->
-<!--		<dependency>-->
-<!--			<groupId>org.testcontainers</groupId>-->
-<!--			<artifactId>postgresql</artifactId>-->
-<!--			<version>1.16.0</version>-->
-<!--			<scope>test</scope>-->
-<!--		</dependency>-->
-<!--		https://piotrminkowski.com/2019/01/31/testing-spring-boot-integration-with-vault-and-postgres-using-testcontainers-framework/-->
-		<dependency>
-			<groupId>org.testcontainers</groupId>
-			<artifactId>vault</artifactId>
-			<version>1.10.5</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.testcontainers</groupId>
-			<artifactId>testcontainers</artifactId>
-			<version>1.10.5</version>
-			<scope>test</scope>
-		</dependency>
+<!--		https://www.testcontainers.org/quickstart/junit_5_quickstart/-->
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>1.10.5</version>
+			<version>1.16.0</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>1.16.0</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
