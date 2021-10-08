@@ -1,4 +1,5 @@
 import React from 'react'
+import {AppBar, Toolbar, Typography} from "@mui/material";
 
 //component imports
 
@@ -8,7 +9,13 @@ type Props = {};
 
 function Header(props: Props){
     return(
-       <div>Header</div>
+        <AppBar >
+            <Toolbar>
+                <Typography variant="h6" component="div">
+                    Scroll to see button
+                </Typography>
+            </Toolbar>
+        </AppBar>
     )
 }
 
