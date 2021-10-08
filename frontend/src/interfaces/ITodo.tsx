@@ -8,9 +8,9 @@ export interface ITodo {
 }
 
 export interface ITodoList {
-    todo: ITodo[],
-    doing: ITodo[],
-    done: ITodo[],
+    TODO: ITodo[],
+    DOING: ITodo[],
+    DONE: ITodo[],
 }
 
 export enum ITodoStatus {

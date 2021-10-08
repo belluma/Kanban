@@ -5,9 +5,9 @@ import {RootState} from "../../app/store";
 
 
 const initialState:ITodoList = {
-    todo:[],
-    doing:[],
-    done:[],
+    TODO:[],
+    DOING:[],
+    DONE:[],
 }
 
 export const getApiData = createAsyncThunk(
@@ -28,16 +28,16 @@ getAllTodos:(a) =>{return a}
         builder
             .addCase(getApiData.pending, state => {})
             .addCase(getApiData.fulfilled, (state, action:PayloadAction<ITodo[]>) => {
-                state.todo = [...action.payload.filter(todo => todo.status === ITodoStatus.TODO)]
-                state.doing = [...action.payload.filter(todo => todo.status === ITodoStatus.DOING)]
-                state.done = [...action.payload.filter(todo => todo.status === ITodoStatus.DONE)]
+                state.TODO = [...action.payload.filter(todo => todo.status === ITodoStatus.TODO)]
+                state.DOING = [...action.payload.filter(todo => todo.status === ITodoStatus.DOING)]
+                state.DONE = [...action.payload.filter(todo => todo.status === ITodoStatus.DONE)]
             })
     })
 
 })
 
 // export const {getAllTodos} = todoListSlice.actions;
-export const selectGetAllTodos = (state:RootState) =>  state.todoList.todo;
-export const selectGetAllDoing = (state:RootState) =>  state.todoList.doing;
-export const selectGetAllDone = (state:RootState) =>  state.todoList.done;
+export const selectGetAllTodos = (state:RootState) =>  state.todoList.TODO;
+export const selectGetAllDoing = (state:RootState) =>  state.todoList.DOING;
+export const selectGetAllDone = (state:RootState) =>  state.todoList.DONE;
 export default todoListSlice.reducer;
