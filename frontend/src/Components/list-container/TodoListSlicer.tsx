@@ -14,6 +14,7 @@ export const getApiData = createAsyncThunk(
     'todoList/fetchTodos'
     ,async() =>{
         const response = await (getAllTodos());
+        console.log(response)
         return response;
     }
 )

@@ -6,9 +6,10 @@ import Todo from "./todo/Todo";
 
 //interface imports
 import {ITodo} from "../../../../interfaces/ITodo";
+type Props = {todo: ITodo}
 
-
-function TodoListItem({id, title, description, status}: ITodo){
+function TodoListItem({todo}: Props){
+    const {id, title, description, status} = todo
     const handleToggle = () => {
     };
     return(
