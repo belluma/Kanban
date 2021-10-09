@@ -11,9 +11,6 @@ import {getApiData} from "../../TodoListSlicer";
 
 type Props = {
     index:number
-    // disableAdvance: boolean,
-    // disableRevert: boolean,
-    // checked: number[]
 };
 
 function ButtonContainer({index}: Props) {
