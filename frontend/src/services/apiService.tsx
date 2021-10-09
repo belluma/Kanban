@@ -36,17 +36,10 @@ export const createTodo = (todo: ITodo) => {
 };
 
 export const updateTodos = (ids:number[], advance: boolean) => {
-    const pathv: number = parseInt(String(advance))
-console.log(pathv, 12312)
-    // return axios({
-    //     method: 'put',
-    //     url: `api/todo/${pathv}`,
-    //     data: todo,
-    //
-    // })
-    return axios.put(`/api/todo/${pathv}`, ids)
+    const pathv: number = advance ? 1 : 0
+        return axios.put(`/api/todo/${pathv}`, ["1"])
         .then(response => response)
-        .catch(err => console.log(err))
+        .catch(err => console.log(err.message))
 };
 
 export const updateTodoContent = (todo: ITodo) => {
