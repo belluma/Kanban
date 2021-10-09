@@ -1,25 +1,39 @@
-import React from 'react'
+import React, {useRef} from 'react'
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {closeError, selectError, selectErrorMessage, selectErrorStatus} from "../list-container/TodoListSlicer";
 //component imports
-import {Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, Fade, Popper, Typography} from "@mui/material";
+import {
+    Avatar,
+    Box,
+    Button,
+    Card,
+    CardActions,
+    CardContent,
+    CardHeader,
+    Fade,
+    Grid,
+    Popper,
+    Typography
+} from "@mui/material";
 
 
 //interface imports
-import {IError} from "../../interfaces/ITodo";
 
 
 type Props = {
-    anchor: HTMLElement | null
 };
 
-function WarningPopper({anchor}: Props) {
+function WarningPopper(props: Props) {
     const dispatch = useAppDispatch();
     const status = useAppSelector(selectErrorStatus);
     const message = useAppSelector(selectErrorMessage);
     const error = useAppSelector(selectError);
+    const errorAnchor = useRef(null);
+
     return (
-        <Popper open={error} anchorEl={anchor} transition>
+        <Grid container justifyContent="center" alignItems="center">
+            <Grid ref={errorAnchor} item>
+        <Popper open={error} anchorEl={errorAnchor.current} transition>
             {({TransitionProps}) => (
                 <Fade {...TransitionProps} timeout={350}>
                     <Box sx={{border: 1, p: 1, bgcolor: 'background.paper'}}>
@@ -42,6 +56,8 @@ function WarningPopper({anchor}: Props) {
                 </Fade>
             )}
         </Popper>
+            </Grid>
+        </Grid>
     )
 }
 

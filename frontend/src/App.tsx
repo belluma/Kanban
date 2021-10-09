@@ -14,12 +14,11 @@ function App() {
     useEffect(() => {
         dispatch(getApiData())
     })
-    const errorAnchorRef = useRef(null);
     return (
-        <div ref={errorAnchorRef} className="App">
+        <div className="App">
             <Header />
             <ListContainer/>
-<WarningPopper anchor={errorAnchorRef.current} />
+<WarningPopper  />
         </div>
     );
 }
