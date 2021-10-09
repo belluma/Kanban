@@ -25,13 +25,13 @@ function ButtonContainer({index}: Props) {
     const advanceTodos = () => {
         const ids = index ? checkedMiddle : checkedLeft;
         console.log(123)
-        updateTodos(ids, true);
-        dispatch(getApiData())
+        updateTodos(ids, true)
+            .then(() => dispatch(getApiData()));
     }
     const revertTodos = () => {
         const ids = index ? checkedRight : checkedMiddle;
         updateTodos(ids, false)
-        dispatch(getApiData())
+            .then(() => dispatch(getApiData()));
     }
 
     return (
