@@ -17,9 +17,14 @@ export interface ITodoChecked {
     DOING: number[],
     DONE: number[],
 }
-
 export enum ITodoStatus {
     TODO = "TODO",
     DOING = "DOING",
     DONE = "DONE"
 }
+interface IError {
+    status: number,
+    message: string,
+    error: boolean,
+}
+export interface ITodoListState extends ITodoList, IError {}

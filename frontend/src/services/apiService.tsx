@@ -12,8 +12,8 @@ export const getTodoById = (id: number) => {
         method: 'get',
         url: `api/todo/${id}`,
 
-    }).then(response => response.data)
-        .catch(err => console.log(err))
+    }).then(response => response)
+        .catch(err => err)
 };
 
 export const searchTodos = (query: string) => {
@@ -21,8 +21,8 @@ export const searchTodos = (query: string) => {
         method: 'get',
         url: `api/todo/query/${query}`,
 
-    }).then(response => response.data)
-        .catch(err => console.log(err))
+    }).then(response => response)
+        .catch(err => err)
 };
 
 export const createTodo = (todo: ITodo) => {
@@ -31,8 +31,8 @@ export const createTodo = (todo: ITodo) => {
         url: `api/todo`,
         data: todo,
 
-    }).then(response => response.data)
-        .catch(err => console.log(err))
+    }).then(response => response)
+        .catch(err => err)
 };
 
 export const updateTodos = (ids:number[], advance: boolean) => {
@@ -48,8 +48,8 @@ export const updateTodoContent = (todo: ITodo) => {
         url: `api/todo`,
         data: todo,
 
-    }).then(response => response.data)
-        .catch(err => console.log(err))
+    }).then(response => response)
+        .catch(err => err)
 };
 
 
@@ -60,6 +60,6 @@ export const deleteTodo = (ids: number[]) => {
         url: `api/todo/`,
         data:ids
 
-    }).then(response => response.data)
+    }).then(response => response)
         .catch(err =>  err)
 };

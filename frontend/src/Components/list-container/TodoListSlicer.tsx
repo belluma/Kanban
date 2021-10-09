@@ -1,27 +1,41 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {getAllTodos} from '../../services/apiService'
-import {ITodo, ITodoList, ITodoStatus} from "../../interfaces/ITodo";
+import {ITodo, ITodoList, ITodoListState, ITodoStatus} from "../../interfaces/ITodo";
 import {RootState} from "../../app/store";
 import {AxiosResponse} from "axios";
 
 
-const initialState: ITodoList = {
+const initialState: ITodoListState = {
     TODO: [],
     DOING: [],
     DONE: [],
+    status: 200,
+    message: "",
+    error: false,
+    
 }
 
 export const getApiData = createAsyncThunk(
     'todoList/fetchTodos'
     , async () => {
-        const response = await (getAllTodos());
-
-        return response
+        const {data, status, statusText} = await (getAllTodos());
+        return {data, status, statusText}
     }
 )
-const handleErrors = (state: ITodoList, action: PayloadAction<AxiosResponse>): boolean => {
-
-    return action.payload.status !== 200;
+interface IResponseData {
+    data:ITodo[],
+    status:number,
+    statusText:string
+}
+const handleErrors = (state: ITodoListState, action: PayloadAction<IResponseData>): boolean => {
+    if(action.payload.status !== 200){
+        state.status = action.payload.status;
+        state.message = action.payload.statusText;
+        state.error = true;
+        if(action.payload.status === 204) state.TODO = state.DOING = state.DONE = []
+        return true
+    }
+    return false
 }
 
 
@@ -33,12 +47,15 @@ export const todoListSlice = createSlice({
         builder
             .addCase(getApiData.pending, state => {
             })
-            .addCase(getApiData.fulfilled, (state, action: PayloadAction<AxiosResponse>) => {
+            .addCase(getApiData.fulfilled, (state, action: PayloadAction<IResponseData>) => {
                 if (handleErrors(state, action)) return
                 const allTodos: ITodo[] = action.payload.data;
-                state.TODO = [...allTodos.filter(todo => todo.status === ITodoStatus.TODO)]
-                state.DOING = [...allTodos.filter(todo => todo.status === ITodoStatus.DOING)]
-                state.DONE = [...allTodos.filter(todo => todo.status === ITodoStatus.DONE)]
+                state.TODO = [...allTodos.filter(todo => todo.status === ITodoStatus.TODO)];
+                state.DOING = [...allTodos.filter(todo => todo.status === ITodoStatus.DOING)];
+                state.DONE = [...allTodos.filter(todo => todo.status === ITodoStatus.DONE)];
+                state.status = 200;
+                state.message = "";
+                state.error = false;
             })
     })
 })
