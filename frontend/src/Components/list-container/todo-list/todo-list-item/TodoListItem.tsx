@@ -17,9 +17,9 @@ function TodoListItem({todo}: Props) {
     const dispatch = useDispatch();
 
     const {id, title, description, status} = todo
-    const handleToggle = (e: React.MouseEvent) => {
-        console.log(e)
-    };
+
+    const labelId = `transfer-list-item-${id}-label`;
+
     return (
         <ListItem
             key={id}
@@ -28,17 +28,15 @@ function TodoListItem({todo}: Props) {
         >
             <ListItemIcon>
                 <Checkbox
-                    // checked={checked}
                     tabIndex={-1}
                     disableRipple
                     onClick={() => dispatch(checkTodos({id, status}))}
-                    // inputProps={{
-                    //     'aria-labelledby': labelId,
-                    // }}
+                    inputProps={{
+                        'aria-labelledby': labelId,
+                    }}
                 />
             </ListItemIcon>
-            <Todo id={id} title={title} description={description}
-                  status={status}/>
+            <Todo todo={todo} />
         </ListItem>
     )
 }
