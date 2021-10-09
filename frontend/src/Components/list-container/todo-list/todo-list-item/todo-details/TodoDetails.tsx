@@ -1,4 +1,4 @@
-import React  from 'react'
+import React from 'react'
 
 //component imports
 import {Card, CardContent, CardHeader, Popper, Typography} from "@mui/material";
@@ -10,9 +10,9 @@ type Props = {
     todo: ITodo,
     open: boolean
     anchorRef:HTMLElement | null
+    closeDetails: () => void
 }
-
-function TodoDetails({todo, open, anchorRef}: Props) {
+function TodoDetails({todo, open, anchorRef, closeDetails}: Props, ref:any) {
     const {id, title, description, status, created, deadline} = todo;
 
     return (
@@ -24,7 +24,6 @@ function TodoDetails({todo, open, anchorRef}: Props) {
                         {description}
                     </Typography>
                 </CardContent>
-
             </Card>
         </Popper>
     )

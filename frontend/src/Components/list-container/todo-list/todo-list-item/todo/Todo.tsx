@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react'
 
 //component imports
-import {Card, CardContent,  IconButton, Typography} from "@mui/material";
+import {Card, CardContent, ClickAwayListener, IconButton, Typography} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 //interface imports
@@ -15,14 +15,18 @@ type Props = {
 function Todo({todo}: Props){
     const {id, title, description, status} = todo
     const [details, setDetails] = useState(false);
-    const deleteTodo =  (id:number) => id
+    const deleteTodo = (id: number) => id;
 
     const anchorRef = useRef(null);
 
-    const showDetails = (e:React.MouseEvent) => {
-        setDetails(!details)
+    const showDetails = () => {
+        setDetails(!details);
+    }
+    const closeDetails = () => {
+        setDetails(false)
     }
     return(
+        <ClickAwayListener onClickAway={closeDetails}>
         <Card onClick={showDetails} sx={{ minWidth: 275, cursor:"pointer" }}>
             <CardContent ref={anchorRef} >
                 <Typography sx={{display:"inline", float:"left",}} variant="h5" component="div">
@@ -33,8 +37,9 @@ function Todo({todo}: Props){
                     <DeleteIcon />
                 </IconButton>
             </CardContent>
-            <TodoDetails todo={todo} open={details} anchorRef={anchorRef.current} />
+            <TodoDetails todo={todo} open={details} anchorRef={anchorRef.current} closeDetails={closeDetails}/>
         </Card>
+        </ClickAwayListener>
     )
 }
 
