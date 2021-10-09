@@ -22,7 +22,7 @@ export enum ITodoStatus {
     DOING = "DOING",
     DONE = "DONE"
 }
-interface IError {
+export interface IError {
     status: number,
     message: string,
     error: boolean,

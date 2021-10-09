@@ -1,15 +1,15 @@
 import React, { useRef, useState} from 'react'
-
-//component imports
-import {Card, CardContent, ClickAwayListener, IconButton, Typography} from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-
-//interface imports
-import {ITodo} from "../../../../../interfaces/ITodo";
-import TodoDetails from "../todo-details/TodoDetails";
 import { deleteTodo } from '../../../../../services/apiService';
 import {useAppDispatch} from "../../../../../app/hooks";
 import {getApiData} from "../../../TodoListSlicer";
+//component imports
+import {Card, CardContent, ClickAwayListener, IconButton, Typography} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import TodoDetails from "../todo-details/TodoDetails";
+
+//interface imports
+import {ITodo} from "../../../../../interfaces/ITodo";
+
 
 type Props = {
     todo: ITodo

@@ -42,7 +42,13 @@ const handleErrors = (state: ITodoListState, action: PayloadAction<IResponseData
 export const todoListSlice = createSlice({
     name: 'todoList',
     initialState,
-    reducers: {},
+    reducers: {
+        closeError: (state) =>{
+            state.error = false;
+            state.status = 200;
+            state.message = "";
+    }
+    },
     extraReducers: (builder => {
         builder
             .addCase(getApiData.pending, state => {
@@ -63,9 +69,13 @@ export const todoListSlice = createSlice({
 const selectGetAllTodos = (state: RootState) => state.todoList.TODO;
 const selectGetAllDoing = (state: RootState) => state.todoList.DOING;
 const selectGetAllDone = (state: RootState) => state.todoList.DONE;
+export const selectErrorStatus = (state: RootState) => state.todoList.status;
+export const selectErrorMessage = (state: RootState) => state.todoList.message;
+export const selectError = (state: RootState) => state.todoList.error;
 export const todosByStatus = {
     TODO: selectGetAllTodos,
     DOING: selectGetAllDoing,
     DONE: selectGetAllDone,
 }
+export const {closeError}= todoListSlice.actions;
 export default todoListSlice.reducer;

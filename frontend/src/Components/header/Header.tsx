@@ -7,10 +7,10 @@ import {AppBar, Toolbar, Typography} from "@mui/material";
 
 type Props = {};
 
-function Header(props: Props){
+function Header( ){
     return(
         <AppBar >
-            <Toolbar>
+            <Toolbar >
                 <Typography variant="h6" component="div">
                     Scroll to see button
                 </Typography>
