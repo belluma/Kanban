@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react'
+import React, { useRef, useState} from 'react'
 
 //component imports
 import {Card, CardContent, ClickAwayListener, IconButton, Typography} from "@mui/material";
@@ -18,8 +18,11 @@ function Todo({todo}: Props){
     const deleteTodo = (id: number) => id;
 
     const anchorRef = useRef(null);
+    const deleteRef = useRef(null);
 
-    const showDetails = () => {
+    const showDetails = (e: React.MouseEvent) => {
+        // @ts-ignore
+        if(deleteRef.current !== null && deleteRef.current.contains(e.target)) return
         setDetails(!details);
     }
     const closeDetails = () => {
@@ -32,7 +35,7 @@ function Todo({todo}: Props){
                 <Typography sx={{display:"inline", float:"left",}} variant="h5" component="div">
                     {title}
                 </Typography>
-                <IconButton sx={{display:"inline", float:"right", }} onClick={() => deleteTodo(id)}>
+                <IconButton ref={deleteRef} sx={{display:"inline", float:"right", }} onClick={() => deleteTodo(id)}>
                     {/*//.then(()=>dispatch(getApiData()))}>*/}
                     <DeleteIcon />
                 </IconButton>
