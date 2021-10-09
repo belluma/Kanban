@@ -53,11 +53,13 @@ export const updateTodoContent = (todo: ITodo) => {
 };
 
 
-export const deleteTodo = (id: number) => {
+export const deleteTodo = (ids: number[]) => {
+    console.log(123, ids)
     return axios({
         method: 'delete',
-        url: `api/todo${id}`,
+        url: `api/todo/`,
+        data:ids
 
     }).then(response => response.data)
-        .catch(err => console.log(err))
+        .catch(err =>  err)
 };

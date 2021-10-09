@@ -7,6 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 //interface imports
 import {ITodo} from "../../../../../interfaces/ITodo";
 import TodoDetails from "../todo-details/TodoDetails";
+import { deleteTodo } from '../../../../../services/apiService';
 
 type Props = {
     todo: ITodo
@@ -15,7 +16,7 @@ type Props = {
 function Todo({todo}: Props){
     const {id, title, description, status} = todo
     const [details, setDetails] = useState(false);
-    const deleteTodo = (id: number) => id;
+
 
     const anchorRef = useRef(null);
     const deleteRef = useRef(null);
@@ -35,7 +36,7 @@ function Todo({todo}: Props){
                 <Typography sx={{display:"inline", float:"left",}} variant="h5" component="div">
                     {title}
                 </Typography>
-                <IconButton ref={deleteRef} sx={{display:"inline", float:"right", }} onClick={() => deleteTodo(id)}>
+                <IconButton ref={deleteRef} sx={{display:"inline", float:"right", }} onClick={() => deleteTodo([id])}>
                     {/*//.then(()=>dispatch(getApiData()))}>*/}
                     <DeleteIcon />
                 </IconButton>
