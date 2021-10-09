@@ -5,7 +5,8 @@ import {useAppDispatch, useAppSelector} from '../../../../app/hooks';
 import {Button, Grid} from "@mui/material";
 import {selectCheckedDoing, selectCheckedDone, selectCheckedTodo} from "./ButtonSlicer";
 import {updateTodos} from "../../../../services/apiService";
-import {getApiData} from "../../TodoListSlicer";
+import {getApiData, todosByStatus} from "../../TodoListSlicer";
+import {ITodoStatus} from "../../../../interfaces/ITodo";
 
 //interface imports
 
@@ -19,6 +20,10 @@ function ButtonContainer({index}: Props) {
     const checkedLeft = useAppSelector(selectCheckedTodo);
     const checkedMiddle = useAppSelector(selectCheckedDoing);
     const checkedRight = useAppSelector(selectCheckedDone);
+    const todos = useAppSelector(todosByStatus["TODO"])
+    const doing = useAppSelector(todosByStatus["DOING"])
+    const done = useAppSelector(todosByStatus["DONE"])
+
     const advanceTodos = () => {
         const ids = index ? checkedMiddle : checkedLeft;
         console.log(123)
@@ -39,7 +44,7 @@ function ButtonContainer({index}: Props) {
                     variant="outlined"
                     size="small"
                     onClick={advanceTodos}
-                    // disabled={left.length === 0}
+                    disabled={index ? !doing.length : !todos.length}
                     aria-label="move selected right"
                 >
                     &gt;
@@ -49,7 +54,7 @@ function ButtonContainer({index}: Props) {
                     variant="outlined"
                     size="small"
                     onClick={revertTodos}
-                    // disabled={middleChecked.length === 0}
+                    disabled={index ? !done.length : !doing.length}
                     aria-label="move selected left"
                 >
                     &lt;
@@ -58,5 +63,4 @@ function ButtonContainer({index}: Props) {
         </Grid>
     )
 }
-
 export default ButtonContainer;
