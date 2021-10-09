@@ -3,7 +3,7 @@ import {ITodo} from "../interfaces/ITodo";
 
 export const getAllTodos = () => {
     return axios.get(`/api/todo`)
-        .then(response => response.data)
+        .then(response => response)
         .catch(err => (err))
 };
 
