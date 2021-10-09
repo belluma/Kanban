@@ -1,12 +1,11 @@
 import React from 'react'
 import {useAppDispatch, useAppSelector} from '../../../../app/hooks';
+import {getApiData, todosByStatus} from "../../TodoListSlicer";
+import {updateTodos} from "../../../../services/apiService";
+import {selectCheckedDoing, selectCheckedDone, selectCheckedTodo} from "./ButtonSlicer";
 
 //component imports
 import {Button, Grid} from "@mui/material";
-import {selectCheckedDoing, selectCheckedDone, selectCheckedTodo} from "./ButtonSlicer";
-import {updateTodos} from "../../../../services/apiService";
-import {getApiData, todosByStatus} from "../../TodoListSlicer";
-import {ITodoStatus} from "../../../../interfaces/ITodo";
 
 //interface imports
 
@@ -26,7 +25,6 @@ function ButtonContainer({index}: Props) {
 
     const advanceTodos = () => {
         const ids = index ? checkedMiddle : checkedLeft;
-        console.log(123)
         updateTodos(ids, true)
             .then(() => dispatch(getApiData()));
     }

@@ -5,8 +5,7 @@ import './App.css';
 
 import Header from "./Components/header/Header";
 import ListContainer from "./Components/list-container/ListContainer";
-import {useAppDispatch, useAppSelector} from "./app/hooks";
-import {getAllTodos} from "./services/apiService";
+import {useAppDispatch} from "./app/hooks";
 import {getApiData} from "./Components/list-container/TodoListSlicer";
 
 function App() {

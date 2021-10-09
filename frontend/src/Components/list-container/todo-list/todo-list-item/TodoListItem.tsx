@@ -2,11 +2,7 @@ import React from 'react'
 import {useDispatch} from "react-redux";
 import {
     checkTodos,
-    selectCheckedDone,
-    selectCheckedDoing,
-    selectCheckedTodo
 } from "../../desktop-list-container/button-container/ButtonSlicer";
-import {useAppSelector} from "../../../../app/hooks";
 
 //component imports
 import Todo from "./todo/Todo";

@@ -37,7 +37,7 @@ export const createTodo = (todo: ITodo) => {
 
 export const updateTodos = (ids:number[], advance: boolean) => {
     const pathv: number = advance ? 1 : 0
-        return axios.put(`/api/todo/${pathv}`, ["1"])
+        return axios.put(`/api/todo/${pathv}`, ids)
         .then(response => response)
         .catch(err => console.log(err.message))
 };
