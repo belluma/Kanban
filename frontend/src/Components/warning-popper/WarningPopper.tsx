@@ -11,7 +11,6 @@ import {
     CardContent,
     CardHeader,
     Fade,
-    Grid,
     Popper,
     Typography
 } from "@mui/material";
@@ -21,19 +20,17 @@ import {
 
 
 type Props = {
+    anchorRef: HTMLElement | null
 };
 
-function WarningPopper(props: Props) {
+function WarningPopper({anchorRef}: Props) {
     const dispatch = useAppDispatch();
     const status = useAppSelector(selectErrorStatus);
     const message = useAppSelector(selectErrorMessage);
     const error = useAppSelector(selectError);
-    const errorAnchor = useRef(null);
 
     return (
-        <Grid container justifyContent="center" alignItems="center">
-            <Grid ref={errorAnchor} item>
-        <Popper open={error} anchorEl={errorAnchor.current} transition>
+        <Popper open={error} anchorEl={anchorRef} transition>
             {({TransitionProps}) => (
                 <Fade {...TransitionProps} timeout={350}>
                     <Box sx={{border: 1, p: 1, bgcolor: 'background.paper'}}>
@@ -56,8 +53,6 @@ function WarningPopper(props: Props) {
                 </Fade>
             )}
         </Popper>
-            </Grid>
-        </Grid>
     )
 }
 
